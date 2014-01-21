@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthAppClient", "AuthAppClient\AuthAppClient.csproj", "{DE564B6E-ADBE-4F5B-8EE7-E65EE19BF782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthAppServer", "AuthAppServer\AuthAppServer.csproj", "{D0D1C06F-3774-467F-A1F7-72850628AFF3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DE564B6E-ADBE-4F5B-8EE7-E65EE19BF782}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE564B6E-ADBE-4F5B-8EE7-E65EE19BF782}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE564B6E-ADBE-4F5B-8EE7-E65EE19BF782}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE564B6E-ADBE-4F5B-8EE7-E65EE19BF782}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0D1C06F-3774-467F-A1F7-72850628AFF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0D1C06F-3774-467F-A1F7-72850628AFF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0D1C06F-3774-467F-A1F7-72850628AFF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0D1C06F-3774-467F-A1F7-72850628AFF3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
