@@ -4,6 +4,7 @@
         <input type="text" placeholder="Username" ng-model="username" />
         <input type="password" placeholder="Password" ng-model="password"/>
     </div>
-	<a class="button" id="btn-login" href="#/" ng-click="login()">Login</a>
-	<a id="link-register" href="/register">New user? Register now!</a>
+	<a id="btn-login" href="#/login" ng-click="login()">Login</a>
+    <a id="btn-login-fb" href="#/login" ng-click="loginOauth(facebook)">Facebook login</a>
+	<a id="link-register" href="#/register" ng-click="goToRegister()">New user? Register now!</a>
 </div>

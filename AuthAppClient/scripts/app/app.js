@@ -5,38 +5,35 @@ angular.module('auth-app', ['ngCookies', 'ngRoute'])
 
     .config(['$routeProvider', '$locationProvider', '$httpProvider', function ($routeProvider, $locationProvider, $httpProvider) {            
 
-        $routeProvider.when('/', ///login
-            {
-                templateUrl: 'views/login.html',
-                controller: 'LoginCtrl'
+        $routeProvider
+            .when("/login", {
+                templateUrl: "views/login.html",
+                controller: "LoginCtrl"
+            })
+            .when("/register", {
+                templateUrl: "views/register.html",
+                controller: "RegisterCtrl"
+            })
+            .when("/game", {
+                templateUrl: "views/game.html",
+                controller: "GameCtrl"
+            })
+            //.when('/404', {
+            //    templateUrl: '404'
+            //})
+            .otherwise({
+                redirectTo: "/login"
             });
-        $routeProvider.when('/register',
-            {
-                templateUrl: 'views/register.html',
-                controller: 'RegisterCtrl'
-            });
-        $routeProvider.when('/game',
-            {
-                templateUrl: 'views/game.html'
-                //controller: 'RegisterCtrl'
-            });
-        $routeProvider.when('/404',
-            {
-                templateUrl: '404'
-            });
-        $routeProvider.otherwise({ redirectTo: '/404' });
-
-        $locationProvider.html5Mode(true);
-
+        
         $httpProvider.interceptors.push(function ($q, $location) {
             return {
-                'responseError': function (response) {
-                    if (response.status === 401 || response.status === 403) {
-                        $location.path('/');
-                        return $q.reject(response);
+                'responseError': function (rejection) {
+                    if (rejection.status === 401 || rejection.status === 403) {
+                        $location.path('/login');
+                        return $q.reject(rejection);
                     }
                     else {
-                        return $q.reject(response);
+                        return $q.reject(rejection);
                     }
                 }
             }
@@ -44,13 +41,13 @@ angular.module('auth-app', ['ngCookies', 'ngRoute'])
 
     }])
 
-    .run(['$rootScope', '$location', '$http', 'Auth', function ($rootScope, $location, $http, Auth) {
+    .run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
 
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            $rootScope.error = null;
-            $rootScope.baseUrl = "http://localhost:8000";
-            //if (Auth.isLoggedIn()) $location.path('/');
-            //else $location.path('/login');
+        $rootScope.$on("$locationChangeStart", function () {
+            if (Auth.isLoggedIn()) {
+                $location.path('/game');
+            }
         });
-
+        $rootScope.error = null;
+        $rootScope.baseUrl = "http://localhost:8000";
     }]);

@@ -2,7 +2,6 @@ var _ = require('underscore')
     , path = require('path')
     , passport = require('passport')
     , AuthCtrl = require('./controllers/auth')
-    , UserCtrl = require('./controllers/user')
     , User = require('./models/User.js')
  
 
@@ -17,7 +16,7 @@ var routes = [
         path: '/auth/facebook/callback',
         httpMethod: 'GET',
         middleware: [passport.authenticate('facebook', {
-            successRedirect: '/',
+            successRedirect: '/game',
             failureRedirect: '/login'
         })]
     },
@@ -32,18 +31,6 @@ var routes = [
         path: '/login',
         httpMethod: 'POST',
         middleware: [AuthCtrl.login]
-    },
-    {
-        path: '/logout',
-        httpMethod: 'POST',
-        middleware: [AuthCtrl.logout]
-    },
-
-    // User resource - to remove it later
-    {
-        path: '/users',
-        httpMethod: 'GET',
-        middleware: [UserCtrl.index]
     },
 
     {

@@ -1,41 +1,35 @@
-'use strict';
+/// <reference path="../libs/underscore.js" />
+/// <reference path="../libs/angular.js" />
 
 angular.module('auth-app')
 .factory('Auth', function ($http, $cookieStore, $rootScope) {
 
-    $cookieStore.remove('user');
+    //$cookieStore.remove('user');
 
     function changeUser(user) {
-        _.extend(currentUser, user);
+        localStorage.setItem("username", user.username);
     };
 
     return {
         isLoggedIn: function (user) {
-            if (user === undefined)
-                user = currentUser;
-            return user.username;
+            if (localStorage.getItem("username")) {
+                return true;
+            }
+                
+            return false;
         },
         register: function (user, success, error) {
-            $http.post($rootScope.baseUrl + '/register', user).success(function (res) {
-                //changeUser(res);
-                success();
+            $http.post($rootScope.baseUrl + '/register', user).success(function (user) {
+                changeUser(user);
+                success(user);
             }).error(error);
         },
         login: function (user, success, error) {
             $http.post($rootScope.baseUrl + '/login', user).success(function (user) {
-                //changeUser(user);
+                changeUser(user);
                 success(user);
             }).error(error);
-        },
-        logout: function (success, error) {
-            $http.post($rootScope.baseUrl + '/logout').success(function () {
-                changeUser({
-                    username: ''
-                });
-                success();
-            }).error(error);
-        },
-        //user: currentUser
+        }
     };
 });
 

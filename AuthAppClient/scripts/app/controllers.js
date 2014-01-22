@@ -1,28 +1,24 @@
-'use strict';
+/// <reference path="../libs/angular.js" />
 
-angular.module('auth-app').controller('NavCtrl', ['$rootScope', '$scope', '$location', 'Auth',
+angular.module('auth-app').controller('GameCtrl', ['$rootScope', '$scope', '$location', 'Auth',
     function ($rootScope, $scope, $location, Auth) {
 
-    $scope.user = Auth.user;
-        
-    $scope.logout = function () {
-        Auth.logout(function () {
-            $location.path('/login');
-        }, function () {
-            $rootScope.error = "Failed to logout";
-        });
-    };
+        $scope.user = localStorage.getItem("username");
+                
+        $scope.logout = function () {
+            localStorage.clear();
+        };
 }]);
 
 angular.module('auth-app').controller('LoginCtrl', ['$rootScope', '$scope', '$location', '$window', 'Auth',
     function ($rootScope, $scope, $location, $window, Auth) {
 
-    $scope.rememberme = true;
+    //$scope.rememberme = true;
     $scope.login = function () {
         Auth.login({
             username: $scope.username,
-            password: $scope.password,
-            rememberme: $scope.rememberme
+            password: $scope.password
+            //rememberme: $scope.rememberme
         },
             function (res) {
                 $location.path('/game');

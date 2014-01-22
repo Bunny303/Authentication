@@ -36,24 +36,16 @@ module.exports = {
             if (err) {
                 return next(err);
             }
-            if (!user) {
-                return res.redirect('/login');
-            }
             req.logIn(user, function (err) {
                 if (err) {
                     return next(err);
                 }
-
-                if (req.body.rememberme) {
-                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
-                }
+                //TODO: About session max time 
+                //if (req.body.rememberme) {
+                //    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7;
+                //}
                 res.json(200, { "username": user.username });
             });
         })(req, res, next);
-    },
-
-    logout: function (req, res) {
-        req.logout();
-        res.send(200);
     }
 };

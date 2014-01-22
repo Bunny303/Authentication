@@ -6,8 +6,7 @@ var User
     , check = require('validator').check
     , Db = require('mongodb').Db
     , Server = require('mongodb').Server
-    , BSON = require('mongodb').pure().BSON
-    , shema = require('mongodb').Shema;
+    , BSON = require('mongodb').pure().BSON;
 
 process.env.FACEBOOK_APP_ID = "640142566053741"
 process.env.FACEBOOK_APP_SECRET = "3eff9bb45ec5f18d807ede0b4482e676";
@@ -39,29 +38,26 @@ module.exports = {
                     console.log('error: An error has occurred');
                 }
                 else {
-                    console.log('Success');
                     callback(null, user);
                 }
             });
         });
     },
+    //check
+    //findOrCreateOauthUser: function (provider, providerId) {
+    //    //var user = module.exports.findByProviderId(provider, providerId);
+    //    if (!user) {
+    //        user = {
+    //            username: provider + '_user', // Should keep Oauth users anonymous on demo site
+    //            provider: provider
+    //        };
+    //        user[provider] = providerId;
+    //        db.collection('Users', function (err, collection) {
+    //            collection.insert(user)
+    //        });
+    //    }
 
-    findOrCreateOauthUser: function (provider, providerId) {
-        var user = module.exports.findByProviderId(provider, providerId);
-        if (!user) {
-            user = {
-                username: provider + '_user', // Should keep Oauth users anonymous on demo site
-                provider: provider
-            };
-            user[provider] = providerId;
-            users.push(user);
-        }
-
-        return user;
-    },
-
-    //findAll: function () {
-    //    return _.map(users, function (user) { return _.clone(user); });
+    //    return user;
     //},
 
     findById: function (id) {
@@ -88,16 +84,15 @@ module.exports = {
                     console.log('error: An error has occurred');
                 }
                 else {
-                    //console.log('Success' + JSON.stringify(result));
                     return result;
                 }
             })
         });
     },
-
-    findByProviderId: function (provider, id) {
-        return _.find(users, function (user) { return user[provider] === id; });
-    },
+    //check
+    //findByProviderId: function (provider, id) {
+    //    return _.find(users, function (user) { return user[provider] === id; });
+    //},
 
     validate: function (user) {
         check(user.username, 'Username must be 1-20 characters long').len(1, 20);
@@ -143,8 +138,21 @@ module.exports = {
             callbackURL: process.env.FACEBOOK_CALLBACK_URL || "http://localhost:8000/auth/facebook/callback"
         },
         function (accessToken, refreshToken, profile, done) {
-            var user = module.exports.findOrCreateOauthUser(profile.provider, profile.id);
-            done(null, user);
+            var user = {
+                username: profile.provider + '_user', // Should keep Oauth users anonymous on demo site
+                provider: profile.id
+            };
+                    
+            db.collection('Users', function (err, collection) {
+                collection.insert(user, function (err, result) {
+                    if (err) {
+                        console.log('error: An error has occurred');
+                    }
+                    else {
+                        callback(null, user);
+                    }
+                });
+            });
         });
     },
 

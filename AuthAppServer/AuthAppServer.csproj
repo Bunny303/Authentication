@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="controllers\auth.js" />
-    <Content Include="controllers\user.js" />
     <Content Include="models\User.js" />
     <Content Include="node_modules\express\benchmarks\middleware.js" />
     <Content Include="node_modules\express\index.js" />
