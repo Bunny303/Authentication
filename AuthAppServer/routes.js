@@ -15,10 +15,10 @@ var routes = [
     {
         path: '/auth/facebook/callback',
         httpMethod: 'GET',
-        middleware: [passport.authenticate('facebook', {
-            successRedirect: '/',
-            failureRedirect: '/login'
-        })]
+        middleware: [passport.authenticate('facebook', { failureRedirect: '/' }),
+        function(req, res) {
+            res.redirect('http://localhost:9673/#/game');
+        }]
     },
 
     // Local Auth

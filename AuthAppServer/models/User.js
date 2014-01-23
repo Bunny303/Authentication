@@ -8,8 +8,8 @@ var User
     , Server = require('mongodb').Server
     , BSON = require('mongodb').pure().BSON;
 
-process.env.FACEBOOK_APP_ID = "..."
-process.env.FACEBOOK_APP_SECRET = "...";
+process.env.FACEBOOK_APP_ID = "enter_id"
+process.env.FACEBOOK_APP_SECRET = "enter_secret";
 
 var db = new Db('AuthApp', new Server('dharma.mongohq.com', 10097, { auto_reconnect: true }), { safe: false });
 db.open(function (err, db) {
@@ -104,46 +104,18 @@ module.exports = {
             clientSecret: process.env.FACEBOOK_APP_SECRET,
             callbackURL: process.env.FACEBOOK_CALLBACK_URL || "http://localhost:8000/auth/facebook/callback"
         },
-        function (accessToken, refreshToken, profile, done) {
-            var user = {
-                provider: profile.provider,
-                userid: profile.id,
-                username: profile.displayName
-            };
-            console.log(JSON.stringify(user));
-            db.collection('FbUsers', function (err, collection) {
-                collection.insert(user, function (err, result) {
-                    if (err) {
-                        console.log('error: An error has occurred');
-                    }
-                    else {
-                        done(null, user);
-                    }
-                });
+        function(accessToken, refreshToken, profile, done) {
+            process.nextTick(function () {
+                return done(null, profile);
             });
-        });
+        })
     },
 
     serializeUser: function (user, done) {
-        done(null, user._id);
+        done(null, user);
     },
 
-    deserializeUser: function (id, done) {
-        console.log("ID: " + id);
-
-        db.collection('FbUsers', function (err, collection) {
-            collection.findOne({ _id: new BSON.ObjectID(id) }, function (err, user) {
-                if (err) {
-                    console.log('error: An error has occurred');
-                }
-                else {
-                    done(null, user);
-                }
-            })
-        });
-
-        
-
-        
+    deserializeUser: function (obj, done) {
+        done(null, obj); 
     }
 };
