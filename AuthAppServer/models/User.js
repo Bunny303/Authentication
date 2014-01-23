@@ -43,40 +43,7 @@ module.exports = {
             });
         });
     },
-    //check
-    //findOrCreateOauthUser: function (provider, providerId) {
-    //    //var user = module.exports.findByProviderId(provider, providerId);
-    //    if (!user) {
-    //        user = {
-    //            username: provider + '_user', // Should keep Oauth users anonymous on demo site
-    //            provider: provider
-    //        };
-    //        user[provider] = providerId;
-    //        db.collection('Users', function (err, collection) {
-    //            collection.insert(user)
-    //        });
-    //    }
-
-    //    return user;
-    //},
-
-    findById: function (id) {
-        db.collection('Users', function (err, collection) {
-            collection.findOne({ _id: new BSON.ObjectID(id) }, function (err, result) {
-                if (err) {
-                    console.log('error: An error has occurred');
-                }
-                else {
-                    console.log('Success');
-                    return {
-                        username: result.username,
-                        password: result.password
-                    }
-                }
-            })
-        });
-    },
-
+    
     findByUsername: function (username) {
         db.collection('Users', function (err, collection) {
             collection.findOne({ username: username }, function (err, result) {
@@ -139,17 +106,18 @@ module.exports = {
         },
         function (accessToken, refreshToken, profile, done) {
             var user = {
-                username: profile.provider + '_user', // Should keep Oauth users anonymous on demo site
-                provider: profile.id
+                provider: profile.provider,
+                userid: profile.id,
+                username: profile.displayName
             };
-                    
-            db.collection('Users', function (err, collection) {
+            console.log(JSON.stringify(user));
+            db.collection('FbUsers', function (err, collection) {
                 collection.insert(user, function (err, result) {
                     if (err) {
                         console.log('error: An error has occurred');
                     }
                     else {
-                        callback(null, user);
+                        done(null, user);
                     }
                 });
             });
@@ -161,9 +129,21 @@ module.exports = {
     },
 
     deserializeUser: function (id, done) {
-        var user = module.exports.findById(id);
+        console.log("ID: " + id);
 
-        if (user) { done(null, user); }
-        else { done(null, false); }
+        db.collection('FbUsers', function (err, collection) {
+            collection.findOne({ _id: new BSON.ObjectID(id) }, function (err, user) {
+                if (err) {
+                    console.log('error: An error has occurred');
+                }
+                else {
+                    done(null, user);
+                }
+            })
+        });
+
+        
+
+        
     }
 };

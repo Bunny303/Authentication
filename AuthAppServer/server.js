@@ -24,11 +24,13 @@ app.configure(function () {
         {
             secret: process.env.COOKIE_SECRET || "Superdupersecret"
         }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(app.router);
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
 
+passport.session();
 passport.use(User.localStrategy);
 passport.use(User.facebookStrategy()); 
 passport.serializeUser(User.serializeUser);

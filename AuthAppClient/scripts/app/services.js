@@ -2,10 +2,8 @@
 /// <reference path="../libs/angular.js" />
 
 angular.module('auth-app')
-.factory('Auth', function ($http, $cookieStore, $rootScope) {
-
-    //$cookieStore.remove('user');
-
+.factory('Auth', function ($http, $rootScope) {
+    
     function changeUser(user) {
         localStorage.setItem("username", user.username);
     };

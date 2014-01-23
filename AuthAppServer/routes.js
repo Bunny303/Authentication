@@ -16,7 +16,7 @@ var routes = [
         path: '/auth/facebook/callback',
         httpMethod: 'GET',
         middleware: [passport.authenticate('facebook', {
-            successRedirect: '/game',
+            successRedirect: '/',
             failureRedirect: '/login'
         })]
     },
@@ -40,9 +40,10 @@ var routes = [
             if (req.user) {
                 username = req.user.username;
             }
-            res.cookie('user', JSON.stringify({
-                'username': username
-            }));
+            res.json(200, { "username": username });
+            //res.cookie('user', JSON.stringify({
+            //    'username': username
+            //}));
         }]
     }
 ];
