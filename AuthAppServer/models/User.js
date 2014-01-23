@@ -8,8 +8,8 @@ var User
     , Server = require('mongodb').Server
     , BSON = require('mongodb').pure().BSON;
 
-process.env.FACEBOOK_APP_ID = "640142566053741"
-process.env.FACEBOOK_APP_SECRET = "3eff9bb45ec5f18d807ede0b4482e676";
+process.env.FACEBOOK_APP_ID = "..."
+process.env.FACEBOOK_APP_SECRET = "...";
 
 var db = new Db('AuthApp', new Server('dharma.mongohq.com', 10097, { auto_reconnect: true }), { safe: false });
 db.open(function (err, db) {
